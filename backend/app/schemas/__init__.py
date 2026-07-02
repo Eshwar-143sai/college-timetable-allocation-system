@@ -10,3 +10,4 @@ from app.schemas.room_schema import (
     ClassroomCreate, ClassroomUpdate, ClassroomResponse,
     LaboratoryCreate, LaboratoryUpdate, LaboratoryResponse
 )
+from app.schemas.timetable_schema import TimetableValidationRequest, TimetableValidationResponse

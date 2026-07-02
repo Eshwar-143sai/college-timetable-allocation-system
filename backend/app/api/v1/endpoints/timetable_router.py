@@ -8,6 +8,8 @@ from app.models.section import Section
 from app.models.subject import Course
 from app.models.faculty import Faculty
 from app.scheduler.constraint_solver import TimetableScheduler
+from app.services.conflict_checker import validate_timetable_entry
+from app.schemas.timetable_schema import TimetableValidationRequest, TimetableValidationResponse
 
 router = APIRouter()
 
@@ -114,3 +116,30 @@ def clear_timetable(
     db.query(Timetable).filter(Timetable.academic_year == academic_year).delete()
     db.commit()
     return None
+
+@router.post("/validate-entry", response_model=TimetableValidationResponse)
+def validate_proposed_entry(
+    payload: TimetableValidationRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Validates a proposed schedule entry to detect conflicts (Faculty, Room, Section, Workloads, Labs, and Credits) 
+    before committing changes.
+    """
+    conflicts = validate_timetable_entry(
+        db=db,
+        section_id=payload.section_id,
+        course_id=payload.course_id,
+        faculty_id=payload.faculty_id,
+        slot_id=payload.slot_id,
+        room_id=payload.room_id,
+        room_type=payload.room_type,
+        academic_year=payload.academic_year,
+        current_timetable_id=payload.current_timetable_id
+    )
+    
+    is_valid = len(conflicts) == 0
+    return {
+        "is_valid": is_valid,
+        "conflicts": conflicts
+    }

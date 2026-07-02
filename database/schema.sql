@@ -225,6 +225,7 @@ CREATE TABLE classrooms (
     floor           TINYINT NOT NULL,
     capacity        INT NOT NULL,
     has_projector   BOOLEAN DEFAULT FALSE,
+    is_available    BOOLEAN DEFAULT TRUE,
 
     CONSTRAINT uq_classroom_room_number UNIQUE (room_number)
 ) ENGINE=InnoDB;
@@ -242,6 +243,7 @@ CREATE TABLE laboratories (
     capacity           INT NOT NULL,
     lab_type           VARCHAR(50) NOT NULL,   -- e.g. 'Computer Lab', 'Electronics Lab'
     equipment_details  TEXT,
+    is_available       BOOLEAN DEFAULT TRUE,
 
     CONSTRAINT uq_lab_number UNIQUE (lab_number)
 ) ENGINE=InnoDB;

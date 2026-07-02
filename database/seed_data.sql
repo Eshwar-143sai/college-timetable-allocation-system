@@ -88,17 +88,24 @@ INSERT INTO students (user_id, roll_number, first_name, last_name, section_id, d
 -- ---------------------------------------------------------------------
 -- 9. CLASSROOMS
 -- ---------------------------------------------------------------------
-INSERT INTO classrooms (room_number, building, floor, capacity, has_projector) VALUES
-('A-101', 'Block A', 1, 70, TRUE),
-('A-102', 'Block A', 1, 65, TRUE),
-('B-201', 'Block B', 2, 60, FALSE);
+INSERT INTO classrooms (room_number, building, floor, capacity, has_projector, is_available) VALUES
+('A-101', 'Block A', 1, 70, TRUE, TRUE),
+('A-102', 'Block A', 1, 65, TRUE, TRUE),
+('A-201', 'Block A', 2, 70, TRUE, TRUE),
+('A-202', 'Block A', 2, 65, FALSE, TRUE),
+('B-101', 'Block B', 1, 60, TRUE, TRUE),
+('B-102', 'Block B', 1, 60, FALSE, TRUE),
+('B-201', 'Block B', 2, 60, FALSE, TRUE),
+('B-202', 'Block B', 2, 55, TRUE, TRUE);
 
 -- ---------------------------------------------------------------------
 -- 10. LABORATORIES
 -- ---------------------------------------------------------------------
-INSERT INTO laboratories (lab_number, building, floor, capacity, lab_type, equipment_details) VALUES
-('L-301', 'Block C', 3, 40, 'Computer Lab',    '40 workstations, Ubuntu 24.04, MySQL 8.0 pre-installed'),
-('L-302', 'Block C', 3, 35, 'Electronics Lab', 'Oscilloscopes, function generators, breadboards');
+INSERT INTO laboratories (lab_number, building, floor, capacity, lab_type, equipment_details, is_available) VALUES
+('L-301', 'Block C', 3, 40, 'Computer Lab',    '40 workstations, Ubuntu 24.04, MySQL 8.0 pre-installed', TRUE),
+('L-302', 'Block C', 3, 35, 'Electronics Lab', 'Oscilloscopes, function generators, breadboards', TRUE),
+('L-401', 'Block C', 4, 40, 'Mechanical Lab',  'CNC machines, lathe machines, drilling equipment', TRUE),
+('L-402', 'Block C', 4, 30, 'Physics/Chemistry Lab', 'Chemical safety hoods, spectrometers, optical benches', TRUE);
 
 -- ---------------------------------------------------------------------
 -- 11. TIME_SLOTS  (Mon-Fri, 4 periods/day for brevity)

@@ -62,6 +62,10 @@ def get_timetable(
         query = query.filter(Timetable.section_id == section_id)
     if faculty_id:
         query = query.filter(Timetable.faculty_id == faculty_id)
+    if classroom_id:
+        query = query.join(RoomAllocation).filter(RoomAllocation.classroom_id == classroom_id)
+    if lab_id:
+        query = query.join(RoomAllocation).filter(RoomAllocation.lab_id == lab_id)
         
     results = query.all()
     
@@ -94,6 +98,7 @@ def get_timetable(
             "course_id": item.course_id,
             "course_code": item.course.course_code,
             "course_name": item.course.course_name,
+            "course_type": item.course.course_type,
             "faculty_id": item.faculty_id,
             "faculty_name": f"{item.faculty.first_name} {item.faculty.last_name}",
             "slot_id": item.slot_id,

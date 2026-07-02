@@ -1,6 +1,7 @@
 const API_BASE_URL = "http://127.0.0.1:8000/api/v1/timetable";
 const SECTIONS_URL = "http://127.0.0.1:8000/api/v1/sections";
 const FACULTY_URL = "http://127.0.0.1:8000/api/v1/faculty";
+const ROOMS_URL = "http://127.0.0.1:8000/api/v1/rooms";
 
 const TimetableAPI = {
     async generate(academicYear = "2025-2026") {
@@ -19,6 +20,8 @@ const TimetableAPI = {
         let url = `${API_BASE_URL}/?academic_year=${encodeURIComponent(academicYear)}&`;
         if (filters.section_id) url += `section_id=${encodeURIComponent(filters.section_id)}&`;
         if (filters.faculty_id) url += `faculty_id=${encodeURIComponent(filters.faculty_id)}&`;
+        if (filters.classroom_id) url += `classroom_id=${encodeURIComponent(filters.classroom_id)}&`;
+        if (filters.lab_id) url += `lab_id=${encodeURIComponent(filters.lab_id)}&`;
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -50,6 +53,22 @@ const TimetableAPI = {
         const response = await fetch(`${FACULTY_URL}/`);
         if (!response.ok) {
             throw new Error("Failed to load faculty list");
+        }
+        return await response.json();
+    },
+
+    async getClassrooms() {
+        const response = await fetch(`${ROOMS_URL}/classrooms`);
+        if (!response.ok) {
+            throw new Error("Failed to load classrooms");
+        }
+        return await response.json();
+    },
+
+    async getLaboratories() {
+        const response = await fetch(`${ROOMS_URL}/laboratories`);
+        if (!response.ok) {
+            throw new Error("Failed to load laboratories");
         }
         return await response.json();
     }

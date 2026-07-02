@@ -146,10 +146,32 @@
                     <h1 class="h2 text-white">Workload & Occupancy Reports</h1>
                     <p class="text-muted">Analyze teaching workloads ratios, verify classrooms occupancy, and download printable utilization reports.</p>
                 </div>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <button class="btn btn-gradient-primary" id="btnPrintReport">
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-outline-light" id="btnPrintReport">
                         <i class="bi bi-printer-fill me-2"></i> Print Reports
                     </button>
+                    <!-- Faculty Workload Export Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-gradient-primary dropdown-toggle" type="button" id="facultyExportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download me-2"></i> Export Faculty Workloads
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="facultyExportDropdown" style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);">
+                            <li><a class="dropdown-item py-2" href="#" id="btnFacultyExportCSV"><i class="bi bi-file-earmark-text-fill me-2 text-info"></i>Export CSV</a></li>
+                            <li><a class="dropdown-item py-2" href="#" id="btnFacultyExportExcel"><i class="bi bi-file-earmark-spreadsheet-fill me-2 text-success"></i>Export Excel</a></li>
+                            <li><a class="dropdown-item py-2" href="#" id="btnFacultyExportPDF"><i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>Export PDF</a></li>
+                        </ul>
+                    </div>
+                    <!-- Room Utilization Export Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="roomExportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download me-2"></i> Export Room Occupancy
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="roomExportDropdown" style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);">
+                            <li><a class="dropdown-item py-2" href="#" id="btnRoomExportCSV"><i class="bi bi-file-earmark-text-fill me-2 text-info"></i>Export CSV</a></li>
+                            <li><a class="dropdown-item py-2" href="#" id="btnRoomExportExcel"><i class="bi bi-file-earmark-spreadsheet-fill me-2 text-success"></i>Export Excel</a></li>
+                            <li><a class="dropdown-item py-2" href="#" id="btnRoomExportPDF"><i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>Export PDF</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

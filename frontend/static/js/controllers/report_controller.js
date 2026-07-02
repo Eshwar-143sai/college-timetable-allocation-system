@@ -212,6 +212,54 @@ function setupEventListeners() {
             window.print();
         });
     }
+
+    // Faculty workload exports
+    const fCSV = document.getElementById("btnFacultyExportCSV");
+    const fExcel = document.getElementById("btnFacultyExportExcel");
+    const fPDF = document.getElementById("btnFacultyExportPDF");
+
+    if (fCSV) {
+        fCSV.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = `http://127.0.0.1:8000/api/v1/export/faculty/csv?academic_year=${encodeURIComponent(academicYear)}`;
+        });
+    }
+    if (fExcel) {
+        fExcel.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = `http://127.0.0.1:8000/api/v1/export/faculty/excel?academic_year=${encodeURIComponent(academicYear)}`;
+        });
+    }
+    if (fPDF) {
+        fPDF.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = `http://127.0.0.1:8000/api/v1/export/faculty/pdf?academic_year=${encodeURIComponent(academicYear)}`;
+        });
+    }
+
+    // Room utilization exports
+    const rCSV = document.getElementById("btnRoomExportCSV");
+    const rExcel = document.getElementById("btnRoomExportExcel");
+    const rPDF = document.getElementById("btnRoomExportPDF");
+
+    if (rCSV) {
+        rCSV.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = `http://127.0.0.1:8000/api/v1/export/rooms/csv?academic_year=${encodeURIComponent(academicYear)}`;
+        });
+    }
+    if (rExcel) {
+        rExcel.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = `http://127.0.0.1:8000/api/v1/export/rooms/excel?academic_year=${encodeURIComponent(academicYear)}`;
+        });
+    }
+    if (rPDF) {
+        rPDF.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = `http://127.0.0.1:8000/api/v1/export/rooms/pdf?academic_year=${encodeURIComponent(academicYear)}`;
+        });
+    }
 }
 
 function showToast(title, message, type = "info") {

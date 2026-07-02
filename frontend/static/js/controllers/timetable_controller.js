@@ -232,6 +232,22 @@ function renderWeeklyGrid(entries) {
     scheduleGridContainer.innerHTML = gridHtml;
 }
 
+function getExportUrl(format) {
+    let url = `http://127.0.0.1:8000/api/v1/export/timetable/${format}?academic_year=${encodeURIComponent(currentAcademicYear)}`;
+    if (selectedId) {
+        if (currentViewMode === "section") {
+            url += `&section_id=${selectedId}`;
+        } else if (currentViewMode === "faculty") {
+            url += `&faculty_id=${selectedId}`;
+        } else if (currentViewMode === "classroom") {
+            url += `&classroom_id=${selectedId}`;
+        } else if (currentViewMode === "laboratory") {
+            url += `&lab_id=${selectedId}`;
+        }
+    }
+    return url;
+}
+
 function setupEventListeners() {
     targetSelect.addEventListener("change", () => loadScheduleGrid());
 
@@ -272,6 +288,30 @@ function setupEventListeners() {
     if (btnPrint) {
         btnPrint.addEventListener("click", () => {
             window.print();
+        });
+    }
+
+    // Timetable exports
+    const btnExportCSV = document.getElementById("btnExportCSV");
+    const btnExportExcel = document.getElementById("btnExportExcel");
+    const btnExportPDF = document.getElementById("btnExportPDF");
+
+    if (btnExportCSV) {
+        btnExportCSV.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = getExportUrl("csv");
+        });
+    }
+    if (btnExportExcel) {
+        btnExportExcel.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = getExportUrl("excel");
+        });
+    }
+    if (btnExportPDF) {
+        btnExportPDF.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = getExportUrl("pdf");
         });
     }
 }

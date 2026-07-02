@@ -220,7 +220,7 @@
                     <h1 class="h2 text-white">Dynamic Weekly Schedule</h1>
                     <p class="text-muted">Generate dynamic timetables and view color-coded, 8-period grids filtered by sections, faculty, or classrooms.</p>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     <button class="btn btn-gradient-primary" id="btnGenerate">
                         <i class="bi bi-play-circle-fill me-2"></i> Solve Schedule
                     </button>
@@ -230,6 +230,16 @@
                     <button class="btn btn-outline-light" id="btnPrint">
                         <i class="bi bi-printer-fill me-2"></i> Print Timetable
                     </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download me-2"></i> Export Timetable
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="exportDropdown" style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);">
+                            <li><a class="dropdown-item py-2" href="#" id="btnExportCSV"><i class="bi bi-file-earmark-text-fill me-2 text-info"></i>Export CSV</a></li>
+                            <li><a class="dropdown-item py-2" href="#" id="btnExportExcel"><i class="bi bi-file-earmark-spreadsheet-fill me-2 text-success"></i>Export Excel</a></li>
+                            <li><a class="dropdown-item py-2" href="#" id="btnExportPDF"><i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>Export PDF</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

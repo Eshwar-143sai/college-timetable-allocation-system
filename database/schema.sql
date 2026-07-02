@@ -327,15 +327,12 @@ CREATE TABLE room_allocation (
 
     CONSTRAINT fk_roomalloc_lab
         FOREIGN KEY (lab_id) REFERENCES laboratories(lab_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+        ON DELETE RESTRICT ON UPDATE CASCADE,
 
-    -- NOTE: "exactly one of classroom_id / lab_id must be set, matching
-    -- room_type" is enforced in the application service layer
-    -- (room_allocation_service). MySQL/MariaDB CHECK constraints that
-    -- reference columns also used in a FOREIGN KEY are unreliable across
-    -- engine versions, so this polymorphic rule is validated in code
-    -- instead of the database — a common, portable pattern for this
-    -- kind of "either/or" relationship.
+    CONSTRAINT chk_room_allocation_exclusive CHECK (
+        (room_type = 'Classroom' AND classroom_id IS NOT NULL AND lab_id IS NULL) OR
+        (room_type = 'Laboratory' AND lab_id IS NOT NULL AND classroom_id IS NULL)
+    )
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_roomalloc_classroom ON room_allocation(classroom_id);
@@ -360,7 +357,11 @@ CREATE TABLE faculty_workload (
 
     CONSTRAINT fk_workload_faculty
         FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT chk_workload_hours CHECK (
+        total_hours_assigned >= 0 AND max_hours_allowed >= 0
+    )
 ) ENGINE=InnoDB;
 
 
@@ -394,7 +395,14 @@ CREATE TABLE constraints_table (
 
     CONSTRAINT fk_constraints_slot
         FOREIGN KEY (slot_id) REFERENCES time_slots(slot_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT chk_constraints_exclusivity CHECK (
+        (constraint_type = 'Faculty_Unavailability' AND faculty_id IS NOT NULL AND classroom_id IS NULL AND lab_id IS NULL) OR
+        (constraint_type = 'Room_Unavailability' AND faculty_id IS NULL AND (classroom_id IS NOT NULL OR lab_id IS NOT NULL)) OR
+        (constraint_type = 'Preferred_Slot' AND faculty_id IS NOT NULL AND classroom_id IS NULL AND lab_id IS NULL) OR
+        (constraint_type = 'Section_Break' AND faculty_id IS NULL AND classroom_id IS NULL AND lab_id IS NULL)
+    )
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_constraints_type ON constraints_table(constraint_type);

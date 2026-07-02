@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | College Timetable System</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/style.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Bootstrap 5.3.2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rz5YNM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Custom Glassmorphic Stylesheet -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-sticky pt-3">
+                <div class="sidebar-brand d-flex align-items-center">
+                    <i class="bi bi-calendar3-event fs-3 me-2"></i>
+                    <span>Timetable Allocation</span>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link-custom active" href="dashboard.html">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="faculty-management.html">
+                            <i class="bi bi-people-fill"></i>
+                            Faculty Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="course-management.html">
+                            <i class="bi bi-book-fill"></i>
+                            Course Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="section-management.html">
+                            <i class="bi bi-tags-fill"></i>
+                            Section Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="classroom-management.html">
+                            <i class="bi bi-door-closed-fill"></i>
+                            Classrooms & Labs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="timetable-view.html">
+                            <i class="bi bi-calendar3"></i>
+                            Timetable
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="reports.html">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                            Workload Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header section -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom border-light-subtle">
+                <div>
+                    <h1 class="h2 text-white">Welcome Admin</h1>
+                    <p class="text-muted">Manage scheduling allocations, track workloads, and review college assets stats.</p>
+                </div>
+            </div>
+
+            <!-- Statistics cards row -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card-glass p-3 h-105 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Faculty count</span>
+                            <h3 class="text-white mb-0" id="facultyCount">0</h3>
+                        </div>
+                        <div class="fs-1 text-indigo">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card-glass p-3 h-105 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Active Courses</span>
+                            <h3 class="text-white mb-0" id="courseCount">0</h3>
+                        </div>
+                        <div class="fs-1 text-indigo">
+                            <i class="bi bi-book-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card-glass p-3 h-105 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Total Sections</span>
+                            <h3 class="text-white mb-0" id="sectionCount">0</h3>
+                        </div>
+                        <div class="fs-1 text-indigo">
+                            <i class="bi bi-tags-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card-glass p-3 h-105 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Today's Classes</span>
+                            <h3 class="text-white mb-0" id="todayClasses">0</h3>
+                            <small class="text-muted font-weight-light" id="todayDay">Today: Loading...</small>
+                        </div>
+                        <div class="fs-1 text-indigo">
+                            <i class="bi bi-calendar3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action button options card -->
+            <div class="card-glass p-4 mb-4">
+                <h5 class="text-white mb-3"><i class="bi bi-rocket-takeoff-fill text-indigo me-2"></i>Quick Actions Controls</h5>
+                <p class="text-muted small">Solve scheduling allocation, generate dynamic weekly grid timetables, or export workload metrics sheets.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <button class="btn btn-gradient-primary" id="btnGenerate">
+                        <i class="bi bi-play-circle-fill me-2"></i> Generate Timetable
+                    </button>
+                    <button class="btn btn-outline-danger" id="btnClear">
+                        <i class="bi bi-trash-fill me-2"></i> Wipe Timetable
+                    </button>
+                    <button class="btn btn-outline-light" id="btnExportPdf">
+                        <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i> Export PDF
+                    </button>
+                    <button class="btn btn-outline-light" id="btnExportExcel">
+                        <i class="bi bi-file-earmark-spreadsheet-fill me-2 text-success"></i> Export Excel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Charts Analysis and Status Row -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card-glass p-4">
+                        <h5 class="text-white mb-3"><i class="bi bi-bar-chart-fill text-indigo me-2"></i>Sections distribution by Department</h5>
+                        <div style="height: 280px; position: relative;">
+                            <canvas id="deptChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card-glass p-4 h-100">
+                        <h5 class="text-white mb-3"><i class="bi bi-shield-lock-fill text-indigo me-2"></i>System Status Logs</h5>
+                        <div class="d-flex flex-column gap-3 text-white-70 small mt-2">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                <div>
+                                    <strong class="d-block text-white">Database Status</strong>
+                                    MySQL 8.0 connection is active
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                <div>
+                                    <strong class="d-block text-white">CSP Solver Engine</strong>
+                                    All constraints validated
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-info-circle-fill text-info fs-5 me-3"></i>
+                                <div>
+                                    <strong class="d-block text-white">Load Balancer</strong>
+                                    Workload targets: Prof(12h), Asst(16h)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Page Controller Initialization -->
+<script type="module">
+    import { init } from "../static/js/controllers/dashboard_controller.js";
+    document.addEventListener("DOMContentLoaded", () => {
+        init();
+    });
+</script>
+
+</body>
+</html>

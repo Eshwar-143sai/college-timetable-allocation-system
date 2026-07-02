@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from datetime import datetime
 
 from app.database.session import get_db
 from app.models.timetable import Timetable, TimeSlot, RoomAllocation
@@ -142,4 +143,46 @@ def validate_proposed_entry(
     return {
         "is_valid": is_valid,
         "conflicts": conflicts
+    }
+
+@router.get("/stats")
+def get_dashboard_stats(
+    academic_year: str = Query("2025-2026"),
+    db: Session = Depends(get_db)
+):
+    """
+    Computes dashboard analytics counters and metrics.
+    """
+    faculty_count = db.query(Faculty).count()
+    course_count = db.query(Course).filter(Course.is_active == True).count()
+    section_count = db.query(Section).filter(Section.academic_year == academic_year).count()
+    
+    # Calculate today's day name (default to 'Monday' if Sunday)
+    today_day = datetime.now().strftime("%A")
+    if today_day == "Sunday":
+        today_day = "Monday"
+        
+    today_classes_count = db.query(Timetable).join(TimeSlot).filter(
+        Timetable.academic_year == academic_year,
+        TimeSlot.day_of_week == today_day
+    ).count()
+    
+    # Generate department-wise course distribution stats for charts
+    dept_distribution = []
+    depts = db.query(Section.department_id, Section.section_name).filter(
+        Section.academic_year == academic_year
+    ).all()
+    
+    # Group sections by department for chart rendering
+    dept_map = {}
+    for d_id, s_name in depts:
+        dept_map[d_id] = dept_map.get(d_id, 0) + 1
+        
+    return {
+        "faculty_count": faculty_count,
+        "course_count": course_count,
+        "section_count": section_count,
+        "today_classes_count": today_classes_count,
+        "today_day_name": today_day,
+        "dept_distribution": dept_map
     }

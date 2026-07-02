@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Timetable View | College Timetable System</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/style.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Bootstrap 5.3.2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rz5YNM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Custom Glassmorphic Stylesheet -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+    <style>
+        .btn-group-toggle-custom {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-group-toggle-custom .btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: #94a3b8;
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 0.6rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+        .btn-group-toggle-custom .btn.active {
+            background: var(--indigo-gradient);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        }
+        .table-dark-header {
+            background: #020617 !important;
+        }
+        .bg-dark-day {
+            background: rgba(99, 102, 241, 0.05) !important;
+        }
+        .bg-break {
+            background: rgba(255, 255, 255, 0.01) !important;
+            font-style: italic;
+            opacity: 0.5;
+        }
+        .hover-scale-sm:hover {
+            transform: scale(1.02);
+            border-color: rgba(99, 102, 241, 0.4) !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-sticky pt-3">
+                <div class="sidebar-brand d-flex align-items-center">
+                    <i class="bi bi-calendar3-event fs-3 me-2"></i>
+                    <span>Timetable Allocation</span>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="dashboard.html">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="faculty-management.html">
+                            <i class="bi bi-people-fill"></i>
+                            Faculty Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="course-management.html">
+                            <i class="bi bi-book-fill"></i>
+                            Course Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="section-management.html">
+                            <i class="bi bi-tags-fill"></i>
+                            Section Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="classroom-management.html">
+                            <i class="bi bi-door-closed-fill"></i>
+                            Classrooms & Labs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom active" href="timetable-view.html">
+                            <i class="bi bi-calendar3"></i>
+                            Timetable
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="reports.html">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                            Workload Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header section -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom border-light-subtle">
+                <div>
+                    <h1 class="h2 text-white">Interactive Timetable Solver</h1>
+                    <p class="text-muted">Solve scheduling constraints dynamically using our Backtracking CSP engine and view allocations.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-danger" id="btnClear">
+                        <i class="bi bi-trash-fill me-2"></i> Clear Timetable
+                    </button>
+                    <button class="btn btn-gradient-primary" id="btnGenerate">
+                        <i class="bi bi-play-circle-fill me-2"></i> Generate Timetable
+                    </button>
+                </div>
+            </div>
+
+            <!-- View Configuration bar -->
+            <div class="card-glass p-3 mb-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <label class="form-label text-muted d-block mb-2">View Mode:</label>
+                        <div class="btn-group-toggle-custom">
+                            <button class="btn active" id="toggleSectionBtn">
+                                <i class="bi bi-tags-fill me-2"></i> Section View
+                            </button>
+                            <button class="btn" id="toggleFacultyBtn">
+                                <i class="bi bi-people-fill me-2"></i> Faculty View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label text-muted d-block mb-2" id="selectFilterLabel">Select Section:</label>
+                        <select id="targetSelect" class="form-select form-select-glass">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timetable Weekly Grid -->
+            <div class="card-glass p-4">
+                <h5 class="text-white mb-4"><i class="bi bi-calendar-week-fill text-indigo me-2"></i>Weekly Schedule Grid</h5>
+                <div id="scheduleGridContainer">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Page Controller Initialization -->
+<script type="module">
+    import { init } from "../static/js/controllers/timetable_controller.js";
+    document.addEventListener("DOMContentLoaded", () => {
+        init();
+    });
+</script>
+
+</body>
+</html>

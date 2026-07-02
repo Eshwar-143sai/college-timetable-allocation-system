@@ -1,0 +1,278 @@
+/* Modern Premium Styling - Glassmorphism Design System */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-hover: rgba(255, 255, 255, 0.07);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    --indigo-primary: #6366f1;
+    --indigo-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    font-family: var(--font-body);
+    color: #f8fafc;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
+
+/* Glassmorphic Containers */
+.card-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-glass:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Sidebar Styling */
+.sidebar {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--glass-border);
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+}
+
+.sidebar-brand {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2.5rem;
+}
+
+.nav-link-custom {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: #94a3b8;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.nav-link-custom:hover, .nav-link-custom.active {
+    background: var(--glass-hover);
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.nav-link-custom i {
+    font-size: 1.25rem;
+    margin-right: 0.85rem;
+}
+
+/* Buttons */
+.btn-gradient-primary {
+    background: var(--indigo-gradient);
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-gradient-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    color: #fff;
+}
+
+.btn-icon-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-icon-glass:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.btn-icon-glass-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-icon-glass-danger:hover {
+    background: var(--danger-gradient);
+    color: #fff;
+    border-color: transparent;
+    transform: scale(1.05);
+}
+
+/* Badges */
+.badge-indigo {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+}
+
+.badge-dept {
+    background: rgba(192, 132, 252, 0.15);
+    color: #e9d5ff;
+    border: 1px solid rgba(192, 132, 252, 0.3);
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+}
+
+.badge-role {
+    background: rgba(34, 211, 238, 0.15);
+    color: #c7d2fe;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+}
+
+/* Form Inputs */
+.form-control-glass, .form-select-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control-glass:focus, .form-select-glass:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--indigo-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    color: #fff;
+}
+
+.form-control-glass::placeholder {
+    color: #64748b;
+}
+
+.form-select-glass option {
+    background: #0f172a;
+    color: #fff;
+}
+
+/* Table Styling */
+.table-glass {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.table-glass th {
+    font-family: var(--font-heading);
+    color: #94a3b8;
+    font-weight: 500;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.table-glass td {
+    padding: 1.2rem 1.5rem;
+    border: none;
+}
+
+.table-glass tbody tr {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.table-glass tbody tr:hover {
+    background: var(--glass-hover);
+    transform: scale(1.002);
+}
+
+.avatar-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--indigo-gradient);
+    font-size: 0.95rem;
+}
+
+/* Progress bar */
+.progress-glass {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+}
+
+/* Micro-animations */
+.transition-all {
+    transition: all 0.25s ease;
+}
+
+/* Modal Dark Styling */
+.modal-content-glass {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+    color: #f8fafc;
+}
+
+.modal-header-glass {
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem;
+}
+
+.modal-body-glass {
+    padding: 2rem;
+}
+
+.modal-footer-glass {
+    border-top: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem;
+}
+
+.text-white-85 { color: rgba(255, 255, 255, 0.85); }
+.text-white-80 { color: rgba(255, 255, 255, 0.8); }
+.text-white-70 { color: rgba(255, 255, 255, 0.7); }
+.text-indigo { color: #818cf8; }

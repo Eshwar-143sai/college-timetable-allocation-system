@@ -17,6 +17,12 @@ services:
     restart: always
     ports:
       - "8000:8000"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=rootpassword
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_DB=timetable_db
     depends_on:
       - db
 

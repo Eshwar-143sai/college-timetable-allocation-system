@@ -165,12 +165,17 @@ CREATE TABLE sections (
     semester          TINYINT UNSIGNED NOT NULL,
     academic_year     VARCHAR(9) NOT NULL,
     student_strength  INT DEFAULT 0,
+    class_advisor_id  INT NULL,
 
     CONSTRAINT uq_section_year UNIQUE (section_name, academic_year),
 
     CONSTRAINT fk_sections_department
         FOREIGN KEY (department_id) REFERENCES departments(department_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+
+    CONSTRAINT fk_sections_advisor
+        FOREIGN KEY (class_advisor_id) REFERENCES faculty(faculty_id)
+        ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_sections_department ON sections(department_id);

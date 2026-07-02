@@ -5,3 +5,4 @@ from app.schemas.faculty_schema import (
     FacultyDetailsResponse
 )
 from app.schemas.subject_schema import CourseBase, CourseCreate, CourseUpdate, CourseResponse
+from app.schemas.section_schema import SectionBase, SectionCreate, SectionUpdate, SectionResponse

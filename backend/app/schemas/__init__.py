@@ -4,3 +4,4 @@ from app.schemas.faculty_schema import (
     FacultyWorkloadResponse, FacultySubjectAssign, FacultySubjectResponse,
     FacultyDetailsResponse
 )
+from app.schemas.subject_schema import CourseBase, CourseCreate, CourseUpdate, CourseResponse

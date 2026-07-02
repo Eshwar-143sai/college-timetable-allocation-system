@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management | College Timetable System</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/style.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Bootstrap 5.3.2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rz5YNM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Custom Glassmorphic Stylesheet -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-sticky pt-3">
+                <div class="sidebar-brand d-flex align-items-center">
+                    <i class="bi bi-calendar3-event fs-3 me-2"></i>
+                    <span>Timetable Allocation</span>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="dashboard.html">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="faculty-management.html">
+                            <i class="bi bi-people-fill"></i>
+                            Faculty Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom active" href="course-management.html">
+                            <i class="bi bi-book-fill"></i>
+                            Course Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="timetable-view.html">
+                            <i class="bi bi-calendar3"></i>
+                            Timetable
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="reports.html">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                            Workload Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header section -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom border-light-subtle">
+                <div>
+                    <h1 class="h2 text-white">Course & Curriculum Management</h1>
+                    <p class="text-muted">Manage college subjects, configure L-T-P-S parameters, assign academic credits, and map teaching faculty.</p>
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button class="btn btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+                        <i class="bi bi-book-half me-2"></i> Add New Course
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="card-glass p-3 mb-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-light-subtle text-muted">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="searchInput" class="form-control form-control-glass border-start-0" placeholder="Search by name or code...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="deptFilterSelect" class="form-select form-select-glass">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="semFilterSelect" class="form-select form-select-glass">
+                            <option value="">All Semesters</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="typeFilterSelect" class="form-select form-select-glass">
+                            <option value="">All Types</option>
+                            <option value="Theory">Theory</option>
+                            <option value="Lab">Lab</option>
+                            <option value="Theory+Lab">Theory+Lab</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-light w-100" onclick="document.getElementById('searchInput').value=''; document.getElementById('deptFilterSelect').value=''; document.getElementById('semFilterSelect').value=''; document.getElementById('typeFilterSelect').value=''; window.location.reload();">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Listing -->
+            <div class="card-glass p-4">
+                <div class="table-responsive">
+                    <table class="table table-glass w-100">
+                        <thead>
+                            <tr>
+                                <th>Course Details</th>
+                                <th>Department</th>
+                                <th>Semester</th>
+                                <th>Type</th>
+                                <th>L-T-P-S & Credits</th>
+                                <th>Faculty Assigned</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseTableBody">
+                            <tr>
+                                <td colspan="7" class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ==========================================
+     MODALS SECTION
+     ========================================== -->
+
+<!-- 1. Add Course Modal -->
+<div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-content-glass">
+            <div class="modal-header modal-header-glass">
+                <h5 class="modal-title" id="addCourseModalLabel"><i class="bi bi-book-fill me-2"></i>Add Course</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addCourseForm">
+                <div class="modal-body modal-body-glass">
+                    <h6 class="text-indigo mb-3">Course Identity</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Course Code</label>
+                            <input type="text" name="course_code" class="form-control form-control-glass" required placeholder="CS301">
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label text-white-70">Course Name</label>
+                            <input type="text" name="course_name" class="form-control form-control-glass" required placeholder="Database Management Systems">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Department</label>
+                            <select name="department_id" id="addDeptSelect" class="form-select form-select-glass" required>
+                                <option value="" disabled selected>Select Department</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Course Type</label>
+                            <select name="course_type" class="form-select form-select-glass" required>
+                                <option value="" disabled selected>Select Course Type</option>
+                                <option value="Theory">Theory</option>
+                                <option value="Lab">Lab</option>
+                                <option value="Theory+Lab">Theory+Lab</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Semester</label>
+                            <input type="number" name="semester" class="form-control form-control-glass" required min="1" max="8" placeholder="3">
+                        </div>
+                    </div>
+
+                    <h6 class="text-indigo mb-3">LTPSC Structure (Lecture-Tutorial-Practical-Self Study-Credits)</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Lecture (L)</label>
+                            <input type="number" name="lecture_hours" class="form-control form-control-glass" required min="0" value="3">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Tutorial (T)</label>
+                            <input type="number" name="tutorial_hours" class="form-control form-control-glass" required min="0" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Practical (P)</label>
+                            <input type="number" name="practical_hours" class="form-control form-control-glass" required min="0" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Self Study (S)</label>
+                            <input type="number" name="self_study_hours" class="form-control form-control-glass" required min="0" value="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Credits (C)</label>
+                            <input type="number" step="0.5" name="credits" class="form-control form-control-glass" required min="0.5" value="3.0">
+                        </div>
+                    </div>
+
+                    <h6 class="text-indigo mb-3">Assign Faculty Members</h6>
+                    <div class="row g-3" id="addFacultyCheckboxes">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-glass">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-gradient-primary">Create Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Edit Course Modal -->
+<div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-content-glass">
+            <div class="modal-header modal-header-glass">
+                <h5 class="modal-title" id="editCourseModalLabel"><i class="bi bi-pencil-square me-2"></i>Edit Course details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editCourseForm">
+                <div class="modal-body modal-body-glass">
+                    <h6 class="text-indigo mb-3">Course Identity</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Course Code</label>
+                            <input type="text" name="course_code" id="editCourseCode" class="form-control form-control-glass" required>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label text-white-70">Course Name</label>
+                            <input type="text" name="course_name" id="editCourseName" class="form-control form-control-glass" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Department</label>
+                            <select name="department_id" id="editDeptSelect" class="form-select form-select-glass" required>
+                                <option value="" disabled>Select Department</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Course Type</label>
+                            <select name="course_type" id="editCourseType" class="form-select form-select-glass" required>
+                                <option value="Theory">Theory</option>
+                                <option value="Lab">Lab</option>
+                                <option value="Theory+Lab">Theory+Lab</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Semester</label>
+                            <input type="number" name="semester" id="editSemester" class="form-control form-control-glass" required min="1" max="8">
+                        </div>
+                    </div>
+
+                    <h6 class="text-indigo mb-3">LTPSC Structure (Lecture-Tutorial-Practical-Self Study-Credits)</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Lecture (L)</label>
+                            <input type="number" name="lecture_hours" id="editLecture" class="form-control form-control-glass" required min="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Tutorial (T)</label>
+                            <input type="number" name="tutorial_hours" id="editTutorial" class="form-control form-control-glass" required min="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Practical (P)</label>
+                            <input type="number" name="practical_hours" id="editPractical" class="form-control form-control-glass" required min="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-white-70">Self Study (S)</label>
+                            <input type="number" name="self_study_hours" id="editSelfStudy" class="form-control form-control-glass" required min="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-white-70">Credits (C)</label>
+                            <input type="number" step="0.5" name="credits" id="editCredits" class="form-control form-control-glass" required min="0.5">
+                        </div>
+                    </div>
+
+                    <h6 class="text-indigo mb-3">Assign Faculty Members</h6>
+                    <div class="row g-3" id="editFacultyCheckboxes">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-glass">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-gradient-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 3. Course Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-content-glass">
+            <div class="modal-header modal-header-glass">
+                <h5 class="modal-title" id="detailsModalLabel"><i class="bi bi-eye-fill me-2"></i>Course & Curriculum Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-body-glass">
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-8">
+                        <h3 id="detailName" class="text-white mb-1">—</h3>
+                        <p class="mb-0 text-white-70">
+                            <span id="detailCode" class="badge badge-indigo me-2">—</span>
+                            <span id="detailType" class="badge badge-role me-2">—</span>
+                            <span id="detailSem" class="badge bg-secondary me-2">—</span>
+                            <span id="detailDept" class="text-white-70">—</span>
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="border-light-subtle my-4">
+
+                <div class="row">
+                    <!-- LTPSC Stats -->
+                    <div class="col-md-5 pe-md-4 border-end border-light-subtle mb-4 mb-md-0">
+                        <h5 class="text-indigo mb-3"><i class="bi bi-bar-chart-steps me-2"></i>LTPSC Parameters</h5>
+                        <div class="list-group list-group-flush bg-transparent">
+                            <div class="list-group-item bg-transparent border-light-subtle text-white-70 d-flex justify-content-between px-0">
+                                <span>Lecture Hours (L):</span>
+                                <strong class="text-white" id="detailLecture">—</strong>
+                            </div>
+                            <div class="list-group-item bg-transparent border-light-subtle text-white-70 d-flex justify-content-between px-0">
+                                <span>Tutorial Hours (T):</span>
+                                <strong class="text-white" id="detailTutorial">—</strong>
+                            </div>
+                            <div class="list-group-item bg-transparent border-light-subtle text-white-70 d-flex justify-content-between px-0">
+                                <span>Practical Hours (P):</span>
+                                <strong class="text-white" id="detailPractical">—</strong>
+                            </div>
+                            <div class="list-group-item bg-transparent border-light-subtle text-white-70 d-flex justify-content-between px-0">
+                                <span>Self Study Hours (S):</span>
+                                <strong class="text-white" id="detailSelfStudy">—</strong>
+                            </div>
+                            <div class="list-group-item bg-transparent border-0 text-white-70 d-flex justify-content-between px-0">
+                                <span class="fw-semibold text-indigo">Total Credits (C):</span>
+                                <strong class="text-white fs-5" id="detailCredits">—</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Faculty Assigned List -->
+                    <div class="col-md-7 ps-md-4">
+                        <h5 class="text-indigo mb-3"><i class="bi bi-people-fill me-2"></i>Faculty Members Assigned</h5>
+                        <ul class="list-group list-group-flush bg-transparent" id="detailFacultyList">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content modal-content-glass">
+            <div class="modal-header modal-header-glass border-0">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Confirm Delete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-body-glass py-3">
+                <p class="mb-0 text-white-70">Are you sure you want to delete this course? This will remove all associated faculty teaching assignments and automatically adjust teaching workloads.</p>
+            </div>
+            <div class="modal-footer modal-footer-glass border-0 pt-0">
+                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnConfirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Controller Initialization -->
+<script type="module">
+    import { init } from "../static/js/controllers/course_controller.js";
+    document.addEventListener("DOMContentLoaded", () => {
+        init();
+    });
+</script>
+
+</body>
+</html>

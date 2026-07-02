@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workload & Utilization Reports | College Timetable System</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/style.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Bootstrap 5.3.2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rz5YNM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Custom Glassmorphic Stylesheet -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+    <style>
+        .progress-bar-legend {
+            display: flex;
+            gap: 15px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .progress-bar-legend span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        
+        /* Print Stylesheet */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+            .sidebar, 
+            header,
+            .btn,
+            .card-glass:first-of-type,
+            .charts-row {
+                display: none !important;
+            }
+            main {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            .card-glass {
+                background: none !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            .table {
+                color: #000000 !important;
+                border-color: #000000 !important;
+            }
+            .table td, .table th {
+                color: #000000 !important;
+                background: #ffffff !important;
+                border: 1px solid #000000 !important;
+            }
+            .progress {
+                background: #e2e8f0 !important;
+                border: 1px solid #000000;
+            }
+            .progress-bar {
+                background: #475569 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-sticky pt-3">
+                <div class="sidebar-brand d-flex align-items-center">
+                    <i class="bi bi-calendar3-event fs-3 me-2"></i>
+                    <span>Timetable Allocation</span>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="dashboard.html">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="faculty-management.html">
+                            <i class="bi bi-people-fill"></i>
+                            Faculty Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="course-management.html">
+                            <i class="bi bi-book-fill"></i>
+                            Course Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="section-management.html">
+                            <i class="bi bi-tags-fill"></i>
+                            Section Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="classroom-management.html">
+                            <i class="bi bi-door-closed-fill"></i>
+                            Classrooms & Labs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="timetable-view.html">
+                            <i class="bi bi-calendar3"></i>
+                            Timetable
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom active" href="reports.html">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                            Workload Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header section -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom border-light-subtle">
+                <div>
+                    <h1 class="h2 text-white">Workload & Occupancy Reports</h1>
+                    <p class="text-muted">Analyze teaching workloads ratios, verify classrooms occupancy, and download printable utilization reports.</p>
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button class="btn btn-gradient-primary" id="btnPrintReport">
+                        <i class="bi bi-printer-fill me-2"></i> Print Reports
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats metrics widgets row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="card-glass p-3 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Weekly Scheduled Sessions</span>
+                            <h3 class="text-white mb-0" id="totalWeeklyClasses">0</h3>
+                        </div>
+                        <div class="fs-2 text-indigo"><i class="bi bi-calendar-event"></i></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-glass p-3 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Monthly Syllabus Projections</span>
+                            <h3 class="text-white mb-0" id="projectedMonthlyHours">0 hours</h3>
+                        </div>
+                        <div class="fs-2 text-indigo"><i class="bi bi-hourglass-split"></i></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-glass p-3 d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted d-block text-uppercase small font-weight-bold mb-1">Syllabus Coverage Estimate</span>
+                            <h3 class="text-white mb-0" id="syllabusCoverage">0%</h3>
+                        </div>
+                        <div class="fs-2 text-indigo"><i class="bi bi-graph-up-arrow"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Charts Row -->
+            <div class="row g-4 mb-4 charts-row">
+                <div class="col-md-5">
+                    <div class="card-glass p-4" style="height: 350px;">
+                        <h5 class="text-white mb-3">Weekly Classes Breakdown</h5>
+                        <div style="height: 250px; position: relative;">
+                            <canvas id="weeklyBreakdownChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="card-glass p-4" style="height: 350px;">
+                        <h5 class="text-white mb-3">Top Room Occupancy Comparison</h5>
+                        <div style="height: 250px; position: relative;">
+                            <canvas id="roomUtilizationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tables Details Section -->
+            <div class="row g-4">
+                <!-- 1. Faculty Workloads -->
+                <div class="col-lg-6">
+                    <div class="card-glass p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-white mb-0">Faculty Workloads Tracking</h5>
+                            <div class="progress-bar-legend">
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="bg-info"></span> Under (<40%)
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="bg-success"></span> Target (40-90%)
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="bg-danger"></span> Over (>90%)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-glass w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Faculty Name</th>
+                                        <th>Designation</th>
+                                        <th>Workload Hours</th>
+                                        <th>Utilization</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workloadTableBody">
+                                    <tr>
+                                        <td colspan="4" class="text-center py-5">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading Workloads...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Rooms Occupancies -->
+                <div class="col-lg-6">
+                    <div class="card-glass p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-white mb-0">Classroom & Lab Occupancy Rates</h5>
+                            <div class="progress-bar-legend">
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="bg-info"></span> Light (<25%)
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="bg-success"></span> Healthy (25-75%)
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="bg-danger"></span> High (>75%)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-glass w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Room Number</th>
+                                        <th>Type</th>
+                                        <th>Building</th>
+                                        <th>Capacity</th>
+                                        <th>Utilization</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roomTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center py-5">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading Occupancy...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Page Controller Initialization -->
+<script type="module">
+    import { init } from "../static/js/controllers/report_controller.js";
+    document.addEventListener("DOMContentLoaded", () => {
+        init();
+    });
+</script>
+
+</body>
+</html>

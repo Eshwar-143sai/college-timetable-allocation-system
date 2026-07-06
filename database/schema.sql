@@ -330,11 +330,11 @@ CREATE TABLE room_allocation (
 
     CONSTRAINT fk_roomalloc_classroom
         FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT,
 
     CONSTRAINT fk_roomalloc_lab
         FOREIGN KEY (lab_id) REFERENCES laboratories(lab_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT,
 
     CONSTRAINT chk_room_allocation_exclusive CHECK (
         (room_type = 'Classroom' AND classroom_id IS NOT NULL AND lab_id IS NULL) OR

@@ -390,19 +390,19 @@ CREATE TABLE constraints_table (
 
     CONSTRAINT fk_constraints_faculty
         FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_constraints_classroom
         FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_constraints_lab
         FOREIGN KEY (lab_id) REFERENCES laboratories(lab_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_constraints_slot
         FOREIGN KEY (slot_id) REFERENCES time_slots(slot_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
+        ON DELETE CASCADE,
 
     CONSTRAINT chk_constraints_exclusivity CHECK (
         (constraint_type = 'Faculty_Unavailability' AND faculty_id IS NOT NULL AND classroom_id IS NULL AND lab_id IS NULL) OR

@@ -14,7 +14,16 @@ class Settings(BaseSettings):
     
     @property
     def DATABASE_URL(self) -> str:
+        if os.getenv("USE_SQLITE", "").lower() == "true":
+            return "sqlite:///./dev.db"
         return f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
+
+    # CORS Settings
+    BACKEND_CORS_ORIGINS: str = "*"
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        return [o.strip() for o in self.BACKEND_CORS_ORIGINS.split(",") if o.strip()]
 
     class Config:
         case_sensitive = True

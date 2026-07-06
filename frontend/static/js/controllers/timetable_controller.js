@@ -1,4 +1,5 @@
 import TimetableAPI from "../api/timetable_api.js";
+import { API_ROOT } from "../config.js";
 
 // State
 let sections = [];
@@ -233,7 +234,7 @@ function renderWeeklyGrid(entries) {
 }
 
 function getExportUrl(format) {
-    let url = `http://127.0.0.1:8000/api/v1/export/timetable/${format}?academic_year=${encodeURIComponent(currentAcademicYear)}`;
+    let url = `${API_ROOT}/api/v1/export/timetable/${format}?academic_year=${encodeURIComponent(currentAcademicYear)}`;
     if (selectedId) {
         if (currentViewMode === "section") {
             url += `&section_id=${selectedId}`;

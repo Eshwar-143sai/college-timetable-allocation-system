@@ -1,4 +1,5 @@
 import ReportAPI from "../api/report_api.js";
+import { API_ROOT } from "../config.js";
 
 // State
 let academicYear = "2025-2026";
@@ -221,19 +222,19 @@ function setupEventListeners() {
     if (fCSV) {
         fCSV.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = `http://127.0.0.1:8000/api/v1/export/faculty/csv?academic_year=${encodeURIComponent(academicYear)}`;
+            window.location.href = `${API_ROOT}/api/v1/export/faculty/csv?academic_year=${encodeURIComponent(academicYear)}`;
         });
     }
     if (fExcel) {
         fExcel.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = `http://127.0.0.1:8000/api/v1/export/faculty/excel?academic_year=${encodeURIComponent(academicYear)}`;
+            window.location.href = `${API_ROOT}/api/v1/export/faculty/excel?academic_year=${encodeURIComponent(academicYear)}`;
         });
     }
     if (fPDF) {
         fPDF.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = `http://127.0.0.1:8000/api/v1/export/faculty/pdf?academic_year=${encodeURIComponent(academicYear)}`;
+            window.location.href = `${API_ROOT}/api/v1/export/faculty/pdf?academic_year=${encodeURIComponent(academicYear)}`;
         });
     }
 
@@ -245,19 +246,19 @@ function setupEventListeners() {
     if (rCSV) {
         rCSV.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = `http://127.0.0.1:8000/api/v1/export/rooms/csv?academic_year=${encodeURIComponent(academicYear)}`;
+            window.location.href = `${API_ROOT}/api/v1/export/rooms/csv?academic_year=${encodeURIComponent(academicYear)}`;
         });
     }
     if (rExcel) {
         rExcel.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = `http://127.0.0.1:8000/api/v1/export/rooms/excel?academic_year=${encodeURIComponent(academicYear)}`;
+            window.location.href = `${API_ROOT}/api/v1/export/rooms/excel?academic_year=${encodeURIComponent(academicYear)}`;
         });
     }
     if (rPDF) {
         rPDF.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = `http://127.0.0.1:8000/api/v1/export/rooms/pdf?academic_year=${encodeURIComponent(academicYear)}`;
+            window.location.href = `${API_ROOT}/api/v1/export/rooms/pdf?academic_year=${encodeURIComponent(academicYear)}`;
         });
     }
 }

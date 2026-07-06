@@ -1,5 +1,6 @@
-const STATS_URL = "http://127.0.0.1:8000/api/v1/timetable/stats";
-const TIMETABLE_URL = "http://127.0.0.1:8000/api/v1/timetable";
+import { API_ROOT } from "../config.js";
+const STATS_URL = `${API_ROOT}/api/v1/timetable/stats`;
+const TIMETABLE_URL = `${API_ROOT}/api/v1/timetable`;
 
 const DashboardAPI = {
     async getStats(academicYear = "2025-2026") {

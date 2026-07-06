@@ -1,7 +1,8 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api/v1/timetable";
-const SECTIONS_URL = "http://127.0.0.1:8000/api/v1/sections";
-const FACULTY_URL = "http://127.0.0.1:8000/api/v1/faculty";
-const ROOMS_URL = "http://127.0.0.1:8000/api/v1/rooms";
+import { API_ROOT } from "../config.js";
+const API_BASE_URL = `${API_ROOT}/api/v1/timetable`;
+const SECTIONS_URL = `${API_ROOT}/api/v1/sections`;
+const FACULTY_URL = `${API_ROOT}/api/v1/faculty`;
+const ROOMS_URL = `${API_ROOT}/api/v1/rooms`;
 
 const TimetableAPI = {
     async generate(academicYear = "2025-2026") {

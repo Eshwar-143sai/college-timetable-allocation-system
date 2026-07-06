@@ -1,5 +1,6 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api/v1/courses";
-const HELPER_BASE_URL = "http://127.0.0.1:8000/api/v1/faculty/helper";
+import { API_ROOT } from "../config.js";
+const API_BASE_URL = `${API_ROOT}/api/v1/courses`;
+const HELPER_BASE_URL = `${API_ROOT}/api/v1/faculty/helper`;
 
 const CourseAPI = {
     async getAll(search = "", departmentId = "", semester = "", courseType = "", academicYear = "2025-2026") {
